@@ -578,4 +578,35 @@ int main (void) {
         <tag>python</tag>
       </tags>
   </entry>
+  <entry>
+    <title>常见算法整理</title>
+    <url>/2020/06/05/%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h1><h2 id="求第n个斐波那契数"><a href="#求第n个斐波那契数" class="headerlink" title="求第n个斐波那契数"></a>求第n个斐波那契数</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fibo</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n == <span class="number">1</span> || n == <span class="number">2</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> fibo(n<span class="number">-1</span>) + fibo(n<span class="number">-2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="猴子吃桃"><a href="#猴子吃桃" class="headerlink" title="猴子吃桃"></a>猴子吃桃</h2><p>猴子从第一天开始，每天吃掉一半后再吃掉一个，第10天剩下1个</p>
+<blockquote>
+<p>思路：可以把第10天当第1天，这样就好想了<br>即 递归结束条件为 n == 1 (第10天)<br>两天的之间的关系式为：(f(day-1)+1) * 2<br>当然 你也可以把按照常理来思考，只是递归结束条件和两天之间的关系式有所不同</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n == <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span>*f(n<span class="number">-1</span>) + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用f(10)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="二分查找的递归形式"><a href="#二分查找的递归形式" class="headerlink" title="二分查找的递归形式"></a>二分查找的递归形式</h2><blockquote>
+<p>思路：（数组为升序排列）mid = (left + right) / 2，之后判断，有4种结果。结果1：找到了，直接结束递归； 结果2：findVal &lt; list[mid] –&gt; right = mid - 1； 结果3：findVal &gt; list[mid] –&gt; left = mid + 1；结果4：left &gt; right，不满足条件结束递归<br>结束递归条件：left &gt; right<br>进行递归，将上述剩余结果写成 if else即可<br>参数传递为  切片，left， right即下标， findVal需要查找的数</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">binnayResearch</span><span class="params">(list []<span class="keyword">int</span>, left <span class="keyword">int</span>, right <span class="keyword">int</span>, findVal <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> left &gt; right &#123;</span><br><span class="line">		fmt.Println(<span class="string">"找不到"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	mid := (left+right) / <span class="number">2</span></span><br><span class="line">	<span class="keyword">if</span> list[mid] &gt; findVal &#123;</span><br><span class="line">		reBinnayResearch(list, left, mid - <span class="number">1</span>, findVal)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> list[mid] &lt; findVal &#123;</span><br><span class="line">		reBinnayResearch(list, mid + <span class="number">1</span>, right, findVal)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">"找到，下标为"</span>, mid)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="交换两数a-b的值"><a href="#交换两数a-b的值" class="headerlink" title="交换两数a, b的值"></a>交换两数a, b的值</h1><h2 id="使用中间值t"><a href="#使用中间值t" class="headerlink" title="使用中间值t"></a>使用中间值t</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1</span></span><br><span class="line">t = a</span><br><span class="line">a = b</span><br><span class="line">b = t</span><br></pre></td></tr></table></figure>
+<h2 id="实现"><a href="#实现" class="headerlink" title="+- 实现"></a>+- 实现</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//2 </span></span><br><span class="line">a = a + b</span><br><span class="line">b = a - b</span><br><span class="line">a = a - b</span><br></pre></td></tr></table></figure>
+
+<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a = a ^ b</span><br><span class="line">b = a ^ b</span><br><span class="line">a = a ^ b</span><br></pre></td></tr></table></figure>
+
+<h2 id="go语言特有的"><a href="#go语言特有的" class="headerlink" title="go语言特有的"></a>go语言特有的</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a, b = b, a</span><br><span class="line"><span class="comment">// 我的理解这种应该是对使用中间值t的缩略写法</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h1><h2 id="交换式排序"><a href="#交换式排序" class="headerlink" title="交换式排序"></a>交换式排序</h2><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// []int 切片为引用类型所以可以直接修改原值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">bobbleSort</span><span class="params">(list []<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	length := <span class="built_in">len</span>(list)</span><br><span class="line">	<span class="keyword">for</span> i := length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; i; j++ &#123;</span><br><span class="line">			<span class="keyword">if</span> list[j] &gt; list[j+<span class="number">1</span>] &#123;</span><br><span class="line">				list[j], list[j+<span class="number">1</span>] = list[j+<span class="number">1</span>], list[j] <span class="comment">// swap</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>常见算法真题</category>
+        <category>golang学习</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
 </search>
