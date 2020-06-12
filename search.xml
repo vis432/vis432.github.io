@@ -618,7 +618,30 @@ int main (void) {
         <category>golang学习</category>
       </categories>
       <tags>
-        <tag>golang</tag>
+        <tag>golang学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>传参切片并使用append()的坑</title>
+    <url>/2020/06/12/%E5%88%87%E7%89%87%E7%9A%84%E5%9D%91/</url>
+    <content><![CDATA[<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sliceTest</span><span class="params">(sliceInt []<span class="keyword">int</span>)</span></span>  &#123;</span><br><span class="line">    sliceInt[<span class="number">1</span>] = <span class="number">10</span></span><br><span class="line">    fmt.Printf(<span class="string">"sliceTest中："</span>)</span><br><span class="line">    fmt.Printf(<span class="string">"sliceInt中存储的地址%p, sliceInt本身的地址%p\n"</span>, sliceInt, &amp;sliceInt)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sliceTest1</span><span class="params">(sliceInt []<span class="keyword">int</span>)</span></span>  &#123;</span><br><span class="line">    fmt.Printf(<span class="string">"sliceTest1中："</span>)</span><br><span class="line">    fmt.Printf(<span class="string">"sliceInt中存储的地址%p, sliceInt本身的地址%p\n"</span>, sliceInt, &amp;sliceInt)</span><br><span class="line">    sliceInt = <span class="built_in">append</span>(sliceInt, <span class="number">3</span>) <span class="comment">// main()中无变化</span></span><br><span class="line">    fmt.Printf(<span class="string">"sliceTest1中append()之后："</span>)</span><br><span class="line">    fmt.Printf(<span class="string">"sliceInt中存储的地址%p, sliceInt本身的地址%p\n"</span>, sliceInt, &amp;sliceInt)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    <span class="keyword">var</span> sliceInt []<span class="keyword">int</span> = <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">3</span>)</span><br><span class="line">    sliceInt[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    sliceInt[<span class="number">1</span>] = <span class="number">1</span></span><br><span class="line">    sliceInt[<span class="number">2</span>] = <span class="number">2</span></span><br><span class="line">    fmt.Printf(<span class="string">"main()中："</span>)</span><br><span class="line">    fmt.Printf(<span class="string">"sliceInt中存储的地址%p, sliceInt本身的地址%p\n"</span>, sliceInt, &amp;sliceInt)</span><br><span class="line">    sliceTest(sliceInt)</span><br><span class="line">    sliceTest1(sliceInt)</span><br><span class="line">    fmt.Println(sliceInt)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>main()中：sliceInt中存储的地址0xc00000c340, sliceInt本身的地址0xc0000044a0<br>sliceTest中：sliceInt中存储的地址0xc00000c340, sliceInt本身的地址0xc000004500<br>sliceTest1中：sliceInt中存储的地址0xc00000c340, sliceInt本身的地址0xc000004540<br>sliceTest1中append()之后：sliceInt中存储的地址0xc000010360, sliceInt本身的地址0xc000004540<br>[0 10 2]</p>
+</blockquote>
+<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><blockquote>
+<ol>
+<li>从上述我们能够发现传入参数后，sliceInt本身的地址发生了改变，但是都指向同一片空间，如果使用 sliceInt[0] = 1 确实能够修改。</li>
+<li>如果你使用了append() 函数，sliceInt指向的空间发生了改变，但是修改的是函数内部的sliceInt所存储的值，而非main()中sliceInt<br>所存储的地址。所以实际上对main()函数中的 sliceInt 没有任何改变(增加元素或者扩容)。</li>
+<li>总得来说，我的理解是，可以认为为值传递，只不过传递的值比较特殊，值为地址。</li>
+<li>return sliceInt重新对main()中sliceInt重新赋值 或者 向函数传参变为 &amp;sliceInt</li>
+</ol>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 向函数传参变为 &amp;sliceInt</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sliceTest2</span><span class="params">(pointerSliceInt *[]<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">"pointerSliceInt %p *pointerSliceInt %p\n"</span>, pointerSliceInt, *pointerSliceInt)</span><br><span class="line">    (*pointerSliceInt) = <span class="built_in">append</span>(*pointerSliceInt, <span class="number">3</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>golang学习</category>
+      </categories>
+      <tags>
+        <tag>golang学习</tag>
       </tags>
   </entry>
 </search>
